@@ -1,0 +1,1 @@
+export const secret = new TextEncoder().encode(process.env.JWT_SECRET);

@@ -1,0 +1,140 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+model User {
+  id String @id @default(cuid())
+
+  email         String  @unique
+  password      String
+  username      String
+  firstName     String? @default("")
+  lastName      String? @default("")
+  secondaryName String? @default("")
+  phoneNumber   String? @default("")
+
+  createdAt DateTime @default(now())
+
+  role    UserRole  @default(USER)
+  order   Order[]
+  chat    Chat[]
+  message Message[]
+}
+
+model Offer {
+  id String @id @default(cuid())
+
+  name        String
+  description String
+  discount    Int
+  sneakers    Sneaker[]
+}
+
+model Category {
+  id String @id @default(cuid())
+
+  name     String
+  img      String
+  sneakers Sneaker[]
+}
+
+model Size {
+  id String @id @default(cuid())
+
+  name     String
+  sneakers Sneaker[]
+}
+
+enum SneakerType {
+  STOCK
+  SOLD
+}
+
+model Sneaker {
+  id String @id @default(cuid())
+
+  name          String
+  description   String
+  img           String[]
+  price         Int         @default(0)
+  rating        Float       @default(0)
+  soldCount     Int         @default(0)
+  sneakerStatus SneakerType @default(STOCK)
+  createdAt     DateTime    @default(now())
+
+  sizes      Size[]
+  offer      Offer?   @relation(fields: [offerId], references: [id])
+  offerId    String?
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+  orders     Order[]
+}
+
+enum OrderStatus {
+  CREATED
+  DELIVERED
+  TRANSFERRED
+  ORDERED
+}
+
+model Order {
+  id String @id @default(cuid())
+
+  sneakers    Sneaker[]
+  user        User         @relation(fields: [userId], references: [id])
+  userId      String
+  orderSum    Int
+  city        String
+  street      String
+  orderStatus OrderStatus  @default(CREATED)
+  orderRoute  OrderRoute[]
+
+  createdAt DateTime @default(now())
+}
+
+model OrderRoute {
+  id String @id @default(cuid())
+
+  name    String
+  address String
+
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String
+
+  createdAt DateTime @default(now())
+}
+
+model Chat {
+  id String @id @default(cuid())
+
+  user    User[]
+  message Message[]
+}
+
+model Message {
+  id String @id @default(cuid())
+
+  message String
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+  chat    Chat   @relation(fields: [chatId], references: [id])
+  chatId  String
+
+  createdAt DateTime @default(now())
+}
