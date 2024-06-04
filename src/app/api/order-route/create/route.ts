@@ -2,6 +2,8 @@ import prisma from "@/lib/prisma";
 import { OrderRoute } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export const POST = async (req: NextRequest) => {
   const data: OrderRoute = await req.json();
 

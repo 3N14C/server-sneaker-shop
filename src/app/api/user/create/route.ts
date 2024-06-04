@@ -3,6 +3,8 @@ import { formAddUser } from "@/validators/form-create-user";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
+export const dynamic = "force-dynamic";
+
 export const POST = async (req: NextRequest) => {
   const data: z.infer<typeof formAddUser> = await req.json();
 

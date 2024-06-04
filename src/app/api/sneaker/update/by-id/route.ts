@@ -2,6 +2,8 @@ import prisma from "@/lib/prisma";
 import { Sneaker } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export const PATCH = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const sneakerId = searchParams.get("id");

@@ -7,6 +7,8 @@ import { NodeNextResponse } from "next/dist/server/base-http/node";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export const POST = async (req: NextRequest, res: NodeNextResponse) => {
   const data: User = await req.json();
 

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
+export const dynamic = "force-dynamic";
+
 const stripe = new Stripe("sk_test_4eC39HqLyjWDarjtT1zdp7dc", {
   apiVersion: "2024-04-10",
   typescript: true,

@@ -5,6 +5,8 @@ import { JWTExpired } from "jose/errors";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export const GET = async (req: NextRequest) => {
   const { searchParams } = req.nextUrl;
   const token = searchParams.get("token");
